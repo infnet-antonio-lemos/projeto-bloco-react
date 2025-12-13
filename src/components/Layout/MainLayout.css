@@ -1,0 +1,31 @@
+/* Mobile First Approach */
+.main-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #0f1419;
+}
+
+.main-content {
+  flex: 1;
+  padding: 1rem;
+  margin-top: 0;
+  transition: margin-left 0.3s ease;
+}
+
+/* Tablet - 768px and up */
+@media (min-width: 768px) {
+  .main-content {
+    margin-left: 240px;
+    padding: 1.5rem;
+  }
+}
+
+/* Desktop - 1024px and up */
+@media (min-width: 1024px) {
+  .main-content {
+    margin-left: 280px;
+    padding: 2rem;
+    max-width: calc(1400px - 280px);
+  }
+}
