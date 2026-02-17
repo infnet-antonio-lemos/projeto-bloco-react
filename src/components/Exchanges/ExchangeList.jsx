@@ -14,36 +14,36 @@ const ExchangeList = () => {
       tradingPairs: '1,400+',
       status: 'active'
     },
-    {
-      id: 2,
-      name: 'Coinbase',
-      icon: '🔵',
-      description: 'Exchange regulamentada nos EUA com foco em segurança e conformidade.',
-      volume24h: '$3.2B',
-      country: 'EUA',
-      tradingPairs: '240+',
-      status: 'active'
-    },
-    {
-      id: 3,
-      name: 'Kraken',
-      icon: '🟣',
-      description: 'Exchange veterana com forte foco em segurança e trading avançado.',
-      volume24h: '$1.8B',
-      country: 'EUA',
-      tradingPairs: '185+',
-      status: 'active'
-    },
-    {
-      id: 4,
-      name: 'KuCoin',
-      icon: '🟢',
-      description: 'Exchange popular conhecida por listar novos tokens rapidamente.',
-      volume24h: '$1.5B',
-      country: 'Seychelles',
-      tradingPairs: '700+',
-      status: 'active'
-    },
+    // {
+    //   id: 2,
+    //   name: 'Coinbase',
+    //   icon: '🔵',
+    //   description: 'Exchange regulamentada nos EUA com foco em segurança e conformidade.',
+    //   volume24h: '$3.2B',
+    //   country: 'EUA',
+    //   tradingPairs: '240+',
+    //   status: 'active'
+    // },
+    // {
+    //   id: 3,
+    //   name: 'Kraken',
+    //   icon: '🟣',
+    //   description: 'Exchange veterana com forte foco em segurança e trading avançado.',
+    //   volume24h: '$1.8B',
+    //   country: 'EUA',
+    //   tradingPairs: '185+',
+    //   status: 'active'
+    // },
+    // {
+    //   id: 4,
+    //   name: 'KuCoin',
+    //   icon: '🟢',
+    //   description: 'Exchange popular conhecida por listar novos tokens rapidamente.',
+    //   volume24h: '$1.5B',
+    //   country: 'Seychelles',
+    //   tradingPairs: '700+',
+    //   status: 'active'
+    // },
     {
       id: 5,
       name: 'Bybit',
@@ -54,16 +54,16 @@ const ExchangeList = () => {
       tradingPairs: '450+',
       status: 'active'
     },
-    {
-      id: 6,
-      name: 'Bitfinex',
-      icon: '🔴',
-      description: 'Exchange com ferramentas avançadas para traders profissionais.',
-      volume24h: '$620M',
-      country: 'Hong Kong',
-      tradingPairs: '330+',
-      status: 'active'
-    }
+    // {
+    //   id: 6,
+    //   name: 'Bitfinex',
+    //   icon: '🔴',
+    //   description: 'Exchange com ferramentas avançadas para traders profissionais.',
+    //   volume24h: '$620M',
+    //   country: 'Hong Kong',
+    //   tradingPairs: '330+',
+    //   status: 'active'
+    // }
   ];
 
   return (

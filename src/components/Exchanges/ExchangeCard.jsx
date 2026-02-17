@@ -1,6 +1,17 @@
+import { useNavigate } from 'react-router-dom';
 import './ExchangeCard.css';
 
 const ExchangeCard = ({ exchange }) => {
+  const navigate = useNavigate();
+
+  const handleDetailsClick = () => {
+    if (exchange.name === 'Binance') {
+      navigate('/binance');
+    } else {
+      alert(`Detalhes para ${exchange.name} em breve!`);
+    }
+  };
+
   return (
     <div className="exchange-card">
       <div className="exchange-card-header">
@@ -31,7 +42,7 @@ const ExchangeCard = ({ exchange }) => {
         <span className={`exchange-status ${exchange.status}`}>
           {exchange.status === 'active' ? '🟢 Ativo' : '🔴 Inativo'}
         </span>
-        <button className="btn-details">Ver Detalhes</button>
+        <button className="btn-details" onClick={handleDetailsClick}>Ver Detalhes</button>
       </div>
     </div>
   );

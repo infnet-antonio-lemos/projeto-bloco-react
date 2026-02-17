@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import MainLayout from './components/Layout/MainLayout'
 import ExchangesPage from './pages/ExchangesPage'
+import BinancePage from './pages/BinancePage'
 import './App.css'
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
         <Routes>
           <Route path="/" element={<ExchangesPage />} />
           <Route path="/exchanges" element={<ExchangesPage />} />
+          <Route path="/binance" element={<BinancePage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </MainLayout>

@@ -4,6 +4,7 @@ import './Sidebar.css';
 const Sidebar = ({ isOpen, onClose }) => {
   const menuItems = [
     { id: 'exchanges', label: 'Exchanges', icon: '🏦', path: '/exchanges' },
+    { id: 'binance', label: 'Binance', icon: '📈', path: '/binance' },
   ];
 
   return (
