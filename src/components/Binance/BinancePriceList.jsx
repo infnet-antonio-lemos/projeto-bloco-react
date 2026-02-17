@@ -56,17 +56,17 @@ const BinancePriceList = () => {
     window.scrollTo(0, 0);
   };
 
-  if (loading) return <div className="loading">Loading prices...</div>;
-  if (error) return <div className="error">Error: {error}</div>;
+  if (loading) return <div className="loading">Carregando preços...</div>;
+  if (error) return <div className="error">Erro: {error}</div>;
 
   return (
     <div className="binance-container">
-      <h2>Binance Market Prices</h2>
+      <h2>Preços de Mercado Binance</h2>
       
       <div className="search-container">
         <input
           type="text"
-          placeholder="Filter by symbol (e.g. BTCUSDT)..."
+          placeholder="Filtrar por símbolo (ex: BTCUSDT)..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="search-input"
@@ -77,8 +77,8 @@ const BinancePriceList = () => {
         <table className="price-table">
           <thead>
             <tr>
-              <th>Symbol</th>
-              <th>Price</th>
+              <th>Símbolo</th>
+              <th>Preço</th>
             </tr>
           </thead>
           <tbody>
@@ -88,7 +88,7 @@ const BinancePriceList = () => {
                   key={item.symbol} 
                   onClick={() => navigate(`/binance/${item.symbol}`)}
                   style={{ cursor: 'pointer' }}
-                  title="Click to view details"
+                  title="Clique para ver detalhes"
                 >
                   <td>{item.symbol}</td>
                   <td>{parseFloat(item.price).toFixed(8)}</td>
@@ -96,7 +96,7 @@ const BinancePriceList = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="2" style={{ textAlign: 'center' }}>No results found</td>
+                <td colSpan="2" style={{ textAlign: 'center' }}>Nenhum resultado encontrado</td>
               </tr>
             )}
           </tbody>
@@ -109,16 +109,16 @@ const BinancePriceList = () => {
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage === 1}
           >
-            Previous
+            Anterior
           </button>
           <span>
-            Page {currentPage} of {totalPages}
+            Página {currentPage} de {totalPages}
           </span>
           <button 
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
           >
-            Next
+            Próxima
           </button>
         </div>
       )}
