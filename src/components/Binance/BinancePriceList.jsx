@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './BinancePriceList.css';
 
 const BinancePriceList = () => {
+  const navigate = useNavigate();
   const [prices, setPrices] = useState([]);
   const [filteredPrices, setFilteredPrices] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -82,7 +84,12 @@ const BinancePriceList = () => {
           <tbody>
             {currentItems.length > 0 ? (
               currentItems.map((item) => (
-                <tr key={item.symbol}>
+                <tr 
+                  key={item.symbol} 
+                  onClick={() => navigate(`/binance/${item.symbol}`)}
+                  style={{ cursor: 'pointer' }}
+                  title="Click to view details"
+                >
                   <td>{item.symbol}</td>
                   <td>{parseFloat(item.price).toFixed(8)}</td>
                 </tr>
