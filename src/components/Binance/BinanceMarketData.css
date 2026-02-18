@@ -99,33 +99,6 @@
   color: #000;
 }
 
-.trades-container {
-  margin-top: 30px;
-  padding: 20px;
-  background-color: var(--background-card);
-  border-radius: 12px;
-  border: 1px solid var(--border-color);
-}
-
-.trades-header {
-  margin-bottom: 20px;
-  border-bottom: 1px solid var(--border-color);
-  padding-bottom: 10px;
-}
-
-.trades-header h3 {
-  color: var(--text-primary);
-  margin: 0;
-}
-
-.trade-row-buyer {
-  color: #00ff88;
-}
-
-.trade-row-seller {
-  color: #ff4d4d;
-}
-
 .market-stats-container {
   margin: 20px 0;
   padding: 20px;

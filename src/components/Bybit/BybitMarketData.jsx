@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import RecentTrades from '../Exchanges/RecentTrades';
 import './BybitMarketData.css';
 
 const BybitMarketData = () => {
@@ -260,43 +261,16 @@ const BybitMarketData = () => {
         </div>
       )}
 
-      <div className="market-data-container">
-        <div className="market-data-header">
-          <h3>Últimas transações</h3>
-        </div>
-        <div className="table-responsive">
-          <table className="data-table">
-            <thead>
-              <tr>
-                <th>Preço</th>
-                <th>Quantidade</th>
-                <th>Data/Hora</th>
-                <th>Lado</th>
-              </tr>
-            </thead>
-            <tbody>
-              {trades.length > 0 ? (
-                trades.map((trade, index) => (
-                  <tr key={index}>
-                    <td className={trade.side === 'Buy' ? 'price-up' : 'price-down'}>
-                      {parseFloat(trade.price).toFixed(8)}
-                    </td>
-                    <td>{parseFloat(trade.size).toFixed(6)}</td>
-                    <td>{new Date(parseInt(trade.time)).toLocaleTimeString()}</td>
-                    <td className={trade.side === 'Buy' ? 'price-up' : 'price-down'}>
-                      {trade.side === 'Buy' ? 'Compra' : 'Venda'}
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan="4" style={{ textAlign: 'center' }}>Nenhuma negociação recente</td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <RecentTrades
+        data={trades.map(trade => ({
+          price: trade.price,
+          amount: trade.size,
+          time: parseInt(trade.time),
+          side: trade.side.toLowerCase()
+        }))}
+        loading={loading}
+        error={error}
+      />
     </div>
   );
 };

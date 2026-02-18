@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import RecentTrades from '../Exchanges/RecentTrades';
 import './BinanceMarketData.css';
 
 const BinanceMarketData = () => {
@@ -230,37 +231,16 @@ const BinanceMarketData = () => {
         </div>
       </div>
 
-      <div className="trades-container">
-        <div className="trades-header">
-          <h3>Últimas transações</h3>
-        </div>
-        <div className="table-responsive">
-          <table className="order-table">
-            <thead>
-              <tr>
-                <th>Preço</th>
-                <th>Quantidade</th>
-                <th>Horário</th>
-                <th style={{ textAlign: 'right' }}>Lado</th>
-              </tr>
-            </thead>
-            <tbody>
-              {trades.map((trade) => (
-                <tr key={trade.id}>
-                  <td className={trade.isBuyerMaker ? 'trade-row-seller' : 'trade-row-buyer'}>
-                    {parseFloat(trade.price).toFixed(8)}
-                  </td>
-                  <td>{parseFloat(trade.qty).toFixed(8)}</td>
-                  <td>{new Date(trade.time).toLocaleTimeString()}</td>
-                  <td style={{ textAlign: 'right', color: trade.isBuyerMaker ? '#ff4d4d' : '#00ff88' }}>
-                    {trade.isBuyerMaker ? 'Venda' : 'Compra'}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <RecentTrades
+        data={trades.map(trade => ({
+          price: trade.price,
+          amount: trade.qty,
+          time: trade.time,
+          side: trade.isBuyerMaker ? 'sell' : 'buy'
+        }))}
+        loading={loading}
+        error={error}
+      />
     </div>
   );
 };
