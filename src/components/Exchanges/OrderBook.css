@@ -1,0 +1,81 @@
+.order-book-container {
+  padding: 20px;
+  background-color: var(--background-card);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  margin-top: 20px;
+}
+
+.order-book-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 10px;
+}
+
+.order-book-header h3 {
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.order-book-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.order-book-column {
+  flex: 1;
+  min-width: 300px;
+}
+
+.order-book-column h4 {
+  text-align: center;
+  margin-bottom: 10px;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.bids-header {
+  color: #00ff88;
+  background-color: rgba(0, 255, 136, 0.1);
+}
+
+.asks-header {
+  color: #ff4d4d;
+  background-color: rgba(255, 77, 77, 0.1);
+}
+
+.order-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.order-table th, 
+.order-table td {
+  padding: 8px;
+  text-align: right;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.order-table th {
+  color: var(--text-secondary);
+  font-weight: normal;
+  font-size: 0.8rem;
+}
+
+.order-table td:first-child,
+.order-table th:first-child {
+  text-align: left;
+}
+
+.bid-price {
+  color: #00ff88;
+}
+
+.ask-price {
+  color: #ff4d4d;
+}

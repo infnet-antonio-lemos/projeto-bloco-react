@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import RecentTrades from '../Exchanges/RecentTrades';
+import OrderBook from '../Exchanges/OrderBook';
 import './BinanceMarketData.css';
 
 const BinanceMarketData = () => {
@@ -179,57 +180,13 @@ const BinanceMarketData = () => {
           )}
         </div>
       )}
-      <div className="order-book-container">
-        <div className="order-book-header">
-          <h3>Livro de Ofertas (Order Book)</h3>
-        </div>
-        
-        <div className="order-book-content">
-          <div className="order-book-column">
-            <h4 className="bids-header">Compras (Bids)</h4>
-            <table className="order-table">
-              <thead>
-                <tr>
-                  <th>Preço</th>
-                  <th>Quantidade</th>
-                  <th>Total</th>
-                </tr>
-              </thead>
-              <tbody>
-                {orderBook.bids.map((bid, index) => (
-                  <tr key={`bid-${index}`}>
-                    <td className="bid-price">{parseFloat(bid[0]).toFixed(8)}</td>
-                    <td>{parseFloat(bid[1]).toFixed(8)}</td>
-                    <td>{(parseFloat(bid[0]) * parseFloat(bid[1])).toFixed(8)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          
-          <div className="order-book-column">
-            <h4 className="asks-header">Vendas (Asks)</h4>
-            <table className="order-table">
-              <thead>
-                <tr>
-                  <th>Preço</th>
-                  <th>Quantidade</th>
-                  <th>Total</th>
-                </tr>
-              </thead>
-              <tbody>
-                {orderBook.asks.map((ask, index) => (
-                  <tr key={`ask-${index}`}>
-                    <td className="ask-price">{parseFloat(ask[0]).toFixed(8)}</td>
-                    <td>{parseFloat(ask[1]).toFixed(8)}</td>
-                    <td>{(parseFloat(ask[0]) * parseFloat(ask[1])).toFixed(8)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
+      
+      <OrderBook
+        bids={orderBook?.bids}
+        asks={orderBook?.asks}
+        loading={loading}
+        error={error}
+      />
 
       <RecentTrades
         data={trades.map(trade => ({

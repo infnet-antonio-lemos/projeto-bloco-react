@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import RecentTrades from '../Exchanges/RecentTrades';
+import OrderBook from '../Exchanges/OrderBook';
 import './BybitMarketData.css';
 
 const BybitMarketData = () => {
@@ -141,35 +142,6 @@ const BybitMarketData = () => {
               {currentKlines.length > 0 ? (
                 currentKlines.map((kline, index) => (
                   <tr key={index}>
-                    {/* 
-                      Bybit Kline format:
-                      [startTime, openPrice, highPrice, lowPrice, closePrice, volume, turnover]
-                      Note: Bybit V5 kline might not include trade count directly like Binance does in index 8.
-                      However, standard candle APIs usually return [time, open, high, low, close, volume, turnover]
-                      Let's assume turnover is 'Negócios' equivalent for now or just display turnover.
-                      Actually turnover is volume * price. Trade count might not be available in simple kline endpoint.
-                      Let's check documentation or assumption.
-                      Bybit V5 Kline response: [startTime, open, high, low, close, volume, turnover]
-                      It does NOT have trade count. We'll display Turnover instead of Trade Count or verify if user meant turnover. 
-                      User asked for "Negócios" (Trades). Binance has it. Bybit doesn't seem to have it in kline array directly.
-                      I will display Turnover in the last column but label it as requested or Turnover if better.
-                      Wait, the request says "create the table with the same columns as binance: ... Negócios".
-                      If Bybit doesn't provide trade count in kline, I might have to leave it empty or put a placeholder.
-                      Let's put 'N/A' or turnover if it makes more sense contextually, but strict requirement says "Negócios".
-                      I'll use turnover for the last column but keep the header as requested, or maybe explain it's turnover.
-                      Actually, let's look at the data structure again.
-                      The query is `kline?category=spot...`
-                      Response list item: [string, string, string, string, string, string, string]
-                      0: startTime
-                      1: open
-                      2: high
-                      3: low
-                      4: close
-                      5: volume
-                      6: turnover
-                      No trade count. I'll display turnover and maybe rename header or keep it and show turnover value.
-                      Let's use Turnover for now as it's the closest 7th element.
-                    */}
                     <td>{new Date(parseInt(kline[0])).toLocaleString()}</td>
                     <td>{parseFloat(kline[1]).toFixed(8)}</td>
                     <td className="price-up">{parseFloat(kline[2]).toFixed(8)}</td>
@@ -212,65 +184,25 @@ const BybitMarketData = () => {
         </div>
       </div>
 
-      {orderBook && (
-        <div className="market-data-container">
-          <div className="market-data-header">
-            <h3>Livro de Ofertas (Order Book)</h3>
-          </div>
-          <div className="order-book-content">
-            <div className="order-book-column">
-              <h4 className="bids-header">Compras (Bids)</h4>
-              <table className="data-table">
-                <thead>
-                  <tr>
-                    <th>Preço</th>
-                    <th>Quantidade</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {orderBook.b.map((bid, index) => (
-                    <tr key={`bid-${index}`}>
-                      <td className="bid-price">{parseFloat(bid[0]).toFixed(8)}</td>
-                      <td>{parseFloat(bid[1]).toFixed(8)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            
-            <div className="order-book-column">
-              <h4 className="asks-header">Vendas (Asks)</h4>
-              <table className="data-table">
-                <thead>
-                  <tr>
-                    <th>Preço</th>
-                    <th>Quantidade</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {orderBook.a.map((ask, index) => (
-                    <tr key={`ask-${index}`}>
-                      <td className="ask-price">{parseFloat(ask[0]).toFixed(8)}</td>
-                      <td>{parseFloat(ask[1]).toFixed(8)}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      )}
-
-      <RecentTrades
-        data={trades.map(trade => ({
-          price: trade.price,
-          amount: trade.size,
-          time: parseInt(trade.time),
-          side: trade.side.toLowerCase()
-        }))}
+      <OrderBook
+        bids={orderBook?.b}
+        asks={orderBook?.a}
         loading={loading}
         error={error}
       />
+
+      <div className="market-data-container">
+        <RecentTrades
+          data={trades.map(trade => ({
+            price: trade.price,
+            amount: trade.size,
+            time: parseInt(trade.time),
+            side: trade.side.toLowerCase()
+          }))}
+          loading={loading}
+          error={error}
+        />
+      </div>
     </div>
   );
 };
