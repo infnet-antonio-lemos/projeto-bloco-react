@@ -6,6 +6,7 @@ const BybitMarketData = () => {
   const { symbol } = useParams();
   const [klines, setKlines] = useState([]);
   const [trades, setTrades] = useState([]);
+  const [orderBook, setOrderBook] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [limit, setLimit] = useState(200); // Fetch more data for pagination
@@ -44,11 +45,19 @@ const BybitMarketData = () => {
         );
         const tradesData = await tradesResponse.json();
 
+        // Fetch Order Book
+        const orderBookResponse = await fetch(
+          `https://api.bybit.com/v5/market/orderbook?category=spot&symbol=${symbol}&limit=10`
+        );
+        const orderBookData = await orderBookResponse.json();
+
         if (klineData.retCode !== 0) throw new Error(klineData.retMsg);
         if (tradesData.retCode !== 0) throw new Error(tradesData.retMsg);
+        if (orderBookData.retCode !== 0) throw new Error(orderBookData.retMsg);
 
         setKlines(klineData.result.list);
         setTrades(tradesData.result.list);
+        setOrderBook(orderBookData.result);
 
       } catch (err) {
         setError(err.message);
@@ -201,6 +210,55 @@ const BybitMarketData = () => {
           </button>
         </div>
       </div>
+
+      {orderBook && (
+        <div className="market-data-container">
+          <div className="market-data-header">
+            <h3>Livro de Ofertas (Order Book)</h3>
+          </div>
+          <div className="order-book-content">
+            <div className="order-book-column">
+              <h4 className="bids-header">Compras (Bids)</h4>
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    <th>Preço</th>
+                    <th>Quantidade</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {orderBook.b.map((bid, index) => (
+                    <tr key={`bid-${index}`}>
+                      <td className="bid-price">{parseFloat(bid[0]).toFixed(8)}</td>
+                      <td>{parseFloat(bid[1]).toFixed(8)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            
+            <div className="order-book-column">
+              <h4 className="asks-header">Vendas (Asks)</h4>
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    <th>Preço</th>
+                    <th>Quantidade</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {orderBook.a.map((ask, index) => (
+                    <tr key={`ask-${index}`}>
+                      <td className="ask-price">{parseFloat(ask[0]).toFixed(8)}</td>
+                      <td>{parseFloat(ask[1]).toFixed(8)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="market-data-container">
         <div className="market-data-header">

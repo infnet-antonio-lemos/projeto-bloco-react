@@ -119,3 +119,41 @@
   align-items: center;
   gap: 20px;
 }
+
+/* Order Book Styles */
+.order-book-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.order-book-column {
+  flex: 1;
+  min-width: 300px;
+}
+
+.order-book-column h4 {
+  text-align: center;
+  margin-bottom: 10px;
+  padding: 8px;
+  border-radius: 4px;
+}
+
+.bids-header {
+  color: #00ff88;
+  background-color: rgba(0, 255, 136, 0.1);
+}
+
+.asks-header {
+  color: #ff4d4d;
+  background-color: rgba(255, 77, 77, 0.1);
+}
+
+.bid-price {
+  color: #00ff88;
+}
+
+.ask-price {
+  color: #ff4d4d;
+}
+

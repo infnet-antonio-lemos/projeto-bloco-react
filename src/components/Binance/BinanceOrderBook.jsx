@@ -179,11 +179,9 @@ const BinanceOrderBook = () => {
           )}
         </div>
       )}
-      
-      <h3>Livro de Ordens</h3>
       <div className="order-book-container">
         <div className="order-book-header">
-          <h3>ID da Última Atualização: {orderBook.lastUpdateId}</h3>
+          <h3>Livro de Ofertas (Order Book)</h3>
         </div>
         
         <div className="order-book-content">
