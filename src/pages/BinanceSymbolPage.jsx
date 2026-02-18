@@ -1,7 +1,7 @@
-import BinanceOrderBook from '../components/Binance/BinanceOrderBook';
+import BinanceMarketData from '../components/Binance/BinanceMarketData';
 
 const BinanceSymbolPage = () => {
-  return <BinanceOrderBook />;
+  return <BinanceMarketData />;
 };
 
 export default BinanceSymbolPage;

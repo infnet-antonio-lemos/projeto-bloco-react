@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import './BinanceOrderBook.css';
+import './BinanceMarketData.css';
 
-const BinanceOrderBook = () => {
+const BinanceMarketData = () => {
   const { symbol } = useParams();
   const [orderBook, setOrderBook] = useState(null);
   const [trades, setTrades] = useState([]);
@@ -24,7 +24,6 @@ const BinanceOrderBook = () => {
   const limits = [1, 5, 10, 20, 50, 100];
 
   useEffect(() => {
-    console.log("fetching");
     const fetchData = async () => {
       if (!symbol) return;
       
@@ -266,4 +265,4 @@ const BinanceOrderBook = () => {
   );
 };
 
-export default BinanceOrderBook;
+export default BinanceMarketData;

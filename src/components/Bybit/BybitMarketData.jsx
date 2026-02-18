@@ -9,14 +9,14 @@ const BybitMarketData = () => {
   const [orderBook, setOrderBook] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [limit, setLimit] = useState(200); // Fetch more data for pagination
-  const [interval, setInterval] = useState('60'); // Default 1h
+  const [limit, setLimit] = useState(20); // Default API limit
+  const [klineInterval, setKlineInterval] = useState('60'); // Default 1h
   
   // Client-side pagination state for Klines
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const itemsPerPage = 5; // Fixed items per page
 
-  const itemsPerPageOptions = [5, 10, 20, 50];
+  const limitOptions = [1, 5, 10, 20, 50, 100, 200];
   const intervals = [
     { value: '1', label: '1m' },
     { value: '5', label: '5m' },
@@ -35,7 +35,7 @@ const BybitMarketData = () => {
         
         // Fetch Klines
         const klineResponse = await fetch(
-          `https://api.bybit.com/v5/market/kline?category=spot&symbol=${symbol}&interval=${interval}&limit=${limit}`
+          `https://api.bybit.com/v5/market/kline?category=spot&symbol=${symbol}&interval=${klineInterval}&limit=${limit}`
         );
         const klineData = await klineResponse.json();
 
@@ -69,7 +69,7 @@ const BybitMarketData = () => {
     if (symbol) {
       fetchData();
     }
-  }, [symbol, limit, interval]);
+  }, [symbol, limit, klineInterval]);
 
   if (loading) return <div className="loading">Carregando dados de mercado...</div>;
   if (error) return <div className="error">Erro: {error}</div>;
@@ -90,13 +90,13 @@ const BybitMarketData = () => {
 
       <div className="market-data-container">
         <div className="filters-header">
-          <h3>Dados Históricos ({intervals.find(i => i.value === interval)?.label || interval})</h3>
+          <h3>Dados Históricos ({intervals.find(i => i.value === klineInterval)?.label || klineInterval})</h3>
           <div className="controls-group">
             <div className="limit-control">
               <label>Intervalo:</label>
               <select 
-                value={interval} 
-                onChange={(e) => setInterval(e.target.value)}
+                value={klineInterval} 
+                onChange={(e) => setKlineInterval(e.target.value)}
                 className="limit-select"
               >
                 {intervals.map(int => (
@@ -106,16 +106,16 @@ const BybitMarketData = () => {
             </div>
 
             <div className="limit-control">
-              <label>Itens por pág:</label>
+              <label>Limite:</label>
               <select 
-                value={itemsPerPage} 
+                value={limit} 
                 onChange={(e) => {
-                  setItemsPerPage(Number(e.target.value));
-                  setCurrentPage(1);
+                  setLimit(Number(e.target.value));
+                  setCurrentPage(1); // Reset page when fetching new data
                 }}
                 className="limit-select"
               >
-                {itemsPerPageOptions.map(opt => (
+                {limitOptions.map(opt => (
                   <option key={opt} value={opt}>{opt}</option>
                 ))}
               </select>
