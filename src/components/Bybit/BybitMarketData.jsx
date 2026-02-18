@@ -5,12 +5,17 @@ import './BybitMarketData.css';
 const BybitMarketData = () => {
   const { symbol } = useParams();
   const [klines, setKlines] = useState([]);
+  const [trades, setTrades] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [limit, setLimit] = useState(10); // Default limit
+  const [limit, setLimit] = useState(200); // Fetch more data for pagination
   const [interval, setInterval] = useState('60'); // Default 1h
+  
+  // Client-side pagination state for Klines
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
-  const limits = [1, 5, 10, 20, 50, 100];
+  const itemsPerPageOptions = [5, 10, 20, 50];
   const intervals = [
     { value: '1', label: '1m' },
     { value: '5', label: '5m' },
@@ -23,25 +28,28 @@ const BybitMarketData = () => {
   ];
 
   useEffect(() => {
-    const fetchKlines = async () => {
+    const fetchData = async () => {
       try {
         setLoading(true);
-        // Bybit V5 API endpoint for klines
-        const response = await fetch(
+        
+        // Fetch Klines
+        const klineResponse = await fetch(
           `https://api.bybit.com/v5/market/kline?category=spot&symbol=${symbol}&interval=${interval}&limit=${limit}`
         );
+        const klineData = await klineResponse.json();
 
-        if (!response.ok) {
-          throw new Error('Failed to fetch data');
-        }
+        // Fetch Recent Trades
+        const tradesResponse = await fetch(
+          `https://api.bybit.com/v5/market/recent-trade?category=spot&symbol=${symbol}&limit=20`
+        );
+        const tradesData = await tradesResponse.json();
 
-        const data = await response.json();
-        
-        if (data.retCode !== 0) {
-          throw new Error(data.retMsg || 'Failed to fetch data');
-        }
+        if (klineData.retCode !== 0) throw new Error(klineData.retMsg);
+        if (tradesData.retCode !== 0) throw new Error(tradesData.retMsg);
 
-        setKlines(data.result.list);
+        setKlines(klineData.result.list);
+        setTrades(tradesData.result.list);
+
       } catch (err) {
         setError(err.message);
       } finally {
@@ -50,12 +58,20 @@ const BybitMarketData = () => {
     };
 
     if (symbol) {
-      fetchKlines();
+      fetchData();
     }
   }, [symbol, limit, interval]);
 
   if (loading) return <div className="loading">Carregando dados de mercado...</div>;
   if (error) return <div className="error">Erro: {error}</div>;
+
+  // Calculate pagination
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentKlines = klines.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(klines.length / itemsPerPage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <div className="bybit-container">
@@ -81,14 +97,17 @@ const BybitMarketData = () => {
             </div>
 
             <div className="limit-control">
-              <label>Limite:</label>
+              <label>Itens por pág:</label>
               <select 
-                value={limit} 
-                onChange={(e) => setLimit(Number(e.target.value))}
+                value={itemsPerPage} 
+                onChange={(e) => {
+                  setItemsPerPage(Number(e.target.value));
+                  setCurrentPage(1);
+                }}
                 className="limit-select"
               >
-                {limits.map(lim => (
-                  <option key={lim} value={lim}>{lim}</option>
+                {itemsPerPageOptions.map(opt => (
+                  <option key={opt} value={opt}>{opt}</option>
                 ))}
               </select>
             </div>
@@ -109,8 +128,8 @@ const BybitMarketData = () => {
               </tr>
             </thead>
             <tbody>
-              {klines.length > 0 ? (
-                klines.map((kline, index) => (
+              {currentKlines.length > 0 ? (
+                currentKlines.map((kline, index) => (
                   <tr key={index}>
                     {/* 
                       Bybit Kline format:
@@ -153,6 +172,67 @@ const BybitMarketData = () => {
               ) : (
                 <tr>
                   <td colSpan="7" style={{ textAlign: 'center' }}>Nenhum dado disponível</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Client Side Pagination Controls */}
+        <div className="pagination-controls" style={{ marginTop: '20px', display: 'flex', justifyContent: 'center', gap: '10px' }}>
+          <button 
+            onClick={() => paginate(currentPage - 1)} 
+            disabled={currentPage === 1}
+            className="limit-select"
+          >
+            Anterior
+          </button>
+          
+          <span style={{ display: 'flex', alignItems: 'center' }}>
+            Página {currentPage} de {totalPages}
+          </span>
+          
+          <button 
+            onClick={() => paginate(currentPage + 1)} 
+            disabled={currentPage === totalPages}
+            className="limit-select"
+          >
+            Próxima
+          </button>
+        </div>
+      </div>
+
+      <div className="market-data-container">
+        <div className="market-data-header">
+          <h3>Últimas transações</h3>
+        </div>
+        <div className="table-responsive">
+          <table className="data-table">
+            <thead>
+              <tr>
+                <th>Preço</th>
+                <th>Quantidade</th>
+                <th>Data/Hora</th>
+                <th>Lado</th>
+              </tr>
+            </thead>
+            <tbody>
+              {trades.length > 0 ? (
+                trades.map((trade, index) => (
+                  <tr key={index}>
+                    <td className={trade.side === 'Buy' ? 'price-up' : 'price-down'}>
+                      {parseFloat(trade.price).toFixed(8)}
+                    </td>
+                    <td>{parseFloat(trade.size).toFixed(6)}</td>
+                    <td>{new Date(parseInt(trade.time)).toLocaleTimeString()}</td>
+                    <td className={trade.side === 'Buy' ? 'price-up' : 'price-down'}>
+                      {trade.side === 'Buy' ? 'Compra' : 'Venda'}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="4" style={{ textAlign: 'center' }}>Nenhuma negociação recente</td>
                 </tr>
               )}
             </tbody>

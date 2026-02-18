@@ -6,6 +6,19 @@
   margin-top: 20px;
 }
 
+.market-data-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 10px;
+}
+
+.market-data-header h3 {
+  margin: 0;
+}
+
 .filters-header {
   display: flex;
   justify-content: space-between;
@@ -80,6 +93,25 @@
 .back-button:hover {
   background-color: var(--primary-color);
   color: #000;
+}
+
+/* Scrollbar styling */
+.table-responsive {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.table-responsive::-webkit-scrollbar {
+  width: 8px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+  background: var(--background-dark);
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+  background-color: var(--border-color);
+  border-radius: 4px;
 }
 
 .controls-group {

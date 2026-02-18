@@ -235,7 +235,7 @@ const BinanceOrderBook = () => {
 
       <div className="trades-container">
         <div className="trades-header">
-          <h3>Negócios Recentes</h3>
+          <h3>Últimas transações</h3>
         </div>
         <div className="table-responsive">
           <table className="order-table">
