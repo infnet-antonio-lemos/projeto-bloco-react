@@ -7,6 +7,8 @@ const ExchangeCard = ({ exchange }) => {
   const handleDetailsClick = () => {
     if (exchange.name === 'Binance') {
       navigate('/binance');
+    } else if (exchange.name === 'Bybit') {
+      navigate('/bybit');
     } else {
       alert(`Detalhes para ${exchange.name} em breve!`);
     }

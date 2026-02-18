@@ -5,6 +5,7 @@ const Sidebar = ({ isOpen, onClose }) => {
   const menuItems = [
     { id: 'exchanges', label: 'Exchanges', icon: '🏦', path: '/exchanges' },
     { id: 'binance', label: 'Binance', icon: '📈', path: '/binance' },
+    { id: 'bybit', label: 'Bybit', icon: '📊', path: '/bybit' },
   ];
 
   return (

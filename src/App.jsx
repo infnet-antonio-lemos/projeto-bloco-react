@@ -3,6 +3,7 @@ import MainLayout from './components/Layout/MainLayout'
 import ExchangesPage from './pages/ExchangesPage'
 import BinancePage from './pages/BinancePage'
 import BinanceSymbolPage from './pages/BinanceSymbolPage'
+import BybitPage from './pages/BybitPage'
 import './App.css'
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
           <Route path="/exchanges" element={<ExchangesPage />} />
           <Route path="/binance" element={<BinancePage />} />
           <Route path="/binance/:symbol" element={<BinanceSymbolPage />} />
+          <Route path="/bybit" element={<BybitPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </MainLayout>
