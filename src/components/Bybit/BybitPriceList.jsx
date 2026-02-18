@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './BybitPriceList.css';
 
 const BybitPriceList = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [prices, setPrices] = useState([]);
   const [filteredPrices, setFilteredPrices] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -91,7 +91,9 @@ const BybitPriceList = () => {
               currentItems.map((item) => (
                 <tr 
                   key={item.symbol} 
-                  style={{ cursor: 'default' }}
+                  onClick={() => navigate(`/bybit/${item.symbol}`)}
+                  style={{ cursor: 'pointer' }}
+                  title="Clique para ver detalhes"
                 >
                   <td>{item.symbol}</td>
                   <td>{parseFloat(item.lastPrice).toFixed(8)}</td>
