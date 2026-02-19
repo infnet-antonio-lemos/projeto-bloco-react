@@ -90,7 +90,7 @@
   color: #00d4ff;
 }
 
-.sidebar-link:global(.active) {
+.sidebar-link.active {
   background-color: rgba(0, 212, 255, 0.15);
   color: #00d4ff;
   border-left: 3px solid #00d4ff;

@@ -4,6 +4,8 @@ import './Sidebar.css';
 const Sidebar = ({ isOpen, onClose }) => {
   const menuItems = [
     { id: 'exchanges', label: 'Exchanges', icon: '🏦', path: '/exchanges' },
+    { id: 'binance', label: 'Binance', icon: '📈', path: '/binance' },
+    { id: 'bybit', label: 'Bybit', icon: '📊', path: '/bybit' },
   ];
 
   return (
@@ -25,7 +27,12 @@ const Sidebar = ({ isOpen, onClose }) => {
           <ul className="sidebar-menu">
             {menuItems.map((item) => (
               <li key={item.id} className="sidebar-menu-item">
-                <NavLink to={item.path} className="sidebar-link" onClick={onClose}>
+                <NavLink 
+                  to={item.path} 
+                  className={({ isActive }) => `sidebar-link ${isActive ? 'active' : ''}`}
+                  onClick={onClose}
+                  end={item.path === '/'} // Avoid active state on root for all paths if path was /
+                >
                   <span className="sidebar-icon">{item.icon}</span>
                   <span className="sidebar-label">{item.label}</span>
                 </NavLink>

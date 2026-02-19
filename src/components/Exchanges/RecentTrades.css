@@ -1,0 +1,70 @@
+.recent-trades-container {
+  padding: 20px;
+  background-color: var(--background-card);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  margin-top: 20px;
+}
+
+.recent-trades-container h3 {
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.recent-trades-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 10px;
+}
+
+.trades-table-responsive {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.trades-table-responsive::-webkit-scrollbar {
+  width: 8px;
+}
+
+.trades-table-responsive::-webkit-scrollbar-track {
+  background: var(--background-dark);
+}
+
+.trades-table-responsive::-webkit-scrollbar-thumb {
+  background-color: var(--border-color);
+  border-radius: 4px;
+}
+
+.trades-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.trades-table th, 
+.trades-table td {
+  padding: 8px;
+  text-align: right;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.trades-table th {
+  color: var(--text-secondary);
+  font-weight: normal;
+  font-size: 0.8rem;
+}
+
+/* First column (Price) align left? Or keep standard? 
+   Usually price is first. Let's keep existing alignment or make standard.
+*/
+
+.trade-row-buy {
+  color: #00ff88;
+}
+
+.trade-row-sell {
+  color: #ff4d4d;
+}
