@@ -1,79 +1,6 @@
-.market-data-container {
+.bybit-container {
   padding: 20px;
-  background-color: var(--background-card);
-  border-radius: 12px;
-  border: 1px solid var(--border-color);
-  margin-top: 20px;
-}
-
-.market-data-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  border-bottom: 1px solid var(--border-color);
-  padding-bottom: 10px;
-}
-
-.market-data-header h3 {
-  margin: 0;
-}
-
-.filters-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
-.limit-control {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.limit-control label {
-  color: var(--text-secondary);
-}
-
-.limit-select {
-  padding: 8px 12px;
-  background-color: var(--background-dark);
-  border: 1px solid var(--border-color);
-  color: var(--text-primary);
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.limit-select:focus {
-  outline: none;
-  border-color: var(--primary-color);
-}
-
-.data-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.data-table th,
-.data-table td {
-  padding: 12px;
-  text-align: left;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.data-table th {
-  color: var(--text-secondary);
-  font-weight: 500;
-  font-size: 0.9rem;
-}
-
-.price-up {
-  color: #00ff88;
-}
-
-.price-down {
-  color: #ff4d4d;
+  animation: fadeIn 0.5s ease;
 }
 
 .back-button {
@@ -95,65 +22,18 @@
   color: #000;
 }
 
-/* Scrollbar styling */
-.table-responsive {
-  max-height: 500px;
-  overflow-y: auto;
-}
-
-.table-responsive::-webkit-scrollbar {
-  width: 8px;
-}
-
-.table-responsive::-webkit-scrollbar-track {
-  background: var(--background-dark);
-}
-
-.table-responsive::-webkit-scrollbar-thumb {
-  background-color: var(--border-color);
-  border-radius: 4px;
-}
-
-.controls-group {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-}
-
-/* Order Book Styles */
-.order-book-content {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-
-.order-book-column {
-  flex: 1;
-  min-width: 300px;
-}
-
-.order-book-column h4 {
+.loading, .error {
+  padding: 40px;
   text-align: center;
-  margin-bottom: 10px;
-  padding: 8px;
-  border-radius: 4px;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
 }
 
-.bids-header {
-  color: #00ff88;
-  background-color: rgba(0, 255, 136, 0.1);
-}
-
-.asks-header {
-  color: #ff4d4d;
-  background-color: rgba(255, 77, 77, 0.1);
-}
-
-.bid-price {
-  color: #00ff88;
-}
-
-.ask-price {
+.error {
   color: #ff4d4d;
 }
 
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

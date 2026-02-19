@@ -2,22 +2,18 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import RecentTrades from '../Exchanges/RecentTrades';
 import OrderBook from '../Exchanges/OrderBook';
+import MarketData from '../Exchanges/MarketData';
 import './BinanceMarketData.css';
 
 const BinanceMarketData = () => {
   const { symbol } = useParams();
   const [orderBook, setOrderBook] = useState(null);
   const [trades, setTrades] = useState([]);
-  const [marketStats, setMarketStats] = useState(null);
   
   // Filter states
   const [klinesInterval, setKlinesInterval] = useState('1d');
   const [limit, setLimit] = useState(10);
   const [klinesData, setKlinesData] = useState([]);
-  
-  // Pagination for klines
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -49,17 +45,6 @@ const BinanceMarketData = () => {
         setOrderBook(orderBookData);
         setTrades(tradesData);
         setKlinesData(klinesResData);
-        
-        // Process latest candle data - taking the last one in the array as it's the most recent
-        if (klinesResData && klinesResData.length > 0) {
-          const latestCandle = klinesResData[klinesResData.length - 1];
-          setMarketStats({
-            high: latestCandle[2],
-            low: latestCandle[3],
-            volume: latestCandle[5],
-            tradeCount: latestCandle[8]
-          });
-        }
       } catch (err) {
         setError(err.message);
       } finally {
@@ -75,21 +60,6 @@ const BinanceMarketData = () => {
     return () => clearInterval(intervalId);
   }, [symbol, klinesInterval, limit]);
 
-  // Reset page when data changes
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [klinesInterval, limit, symbol]);
-
-  // Pagination logic
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentKlines = klinesData.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(klinesData.length / itemsPerPage);
-
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
   if (loading && !orderBook) return <div className="loading">Carregando livro de ordens para {symbol}...</div>;
   if (error) return <div className="error">Erro: {error}</div>;
   if (!orderBook) return <div className="error">Nenhum dado disponível</div>;
@@ -100,86 +70,18 @@ const BinanceMarketData = () => {
       
       <h2>Dados de Mercado {symbol}</h2>
       
-      {klinesData.length > 0 && (
-        <div className="market-stats-container">
-          <div className="stats-filters">
-            <div className="filter-group">
-              <label>Intervalo:</label>
-              <select 
-                value={klinesInterval} 
-                onChange={(e) => setKlinesInterval(e.target.value)}
-                className="filter-select"
-              >
-                {intervals.map(int => (
-                  <option key={int} value={int}>{int}</option>
-                ))}
-              </select>
-            </div>
-            
-             <div className="filter-group">
-              <label>Limite:</label>
-              <select 
-                value={limit} 
-                onChange={(e) => setLimit(Number(e.target.value))}
-                className="filter-select"
-              >
-                {limits.map(lim => (
-                  <option key={lim} value={lim}>{lim}</option>
-                ))}
-              </select>
-            </div>
-          </div>
-
-          <div className="table-responsive">
-            <table className="order-table">
-              <thead>
-                <tr>
-                  <th>Tempo Abertura</th>
-                  <th>Abertura</th>
-                  <th>Máxima</th>
-                  <th>Mínima</th>
-                  <th>Fechamento</th>
-                  <th>Volume</th>
-                  <th>Negócios</th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentKlines.map((kline, index) => (
-                  <tr key={index}>
-                    <td>{new Date(kline[0]).toLocaleString()}</td>
-                    <td>{parseFloat(kline[1]).toFixed(8)}</td>
-                    <td className="stat-value high">{parseFloat(kline[2]).toFixed(8)}</td>
-                    <td className="stat-value low">{parseFloat(kline[3]).toFixed(8)}</td>
-                    <td>{parseFloat(kline[4]).toFixed(8)}</td>
-                    <td>{parseFloat(kline[5]).toFixed(2)}</td>
-                    <td>{kline[8]}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {totalPages > 1 && (
-            <div className="pagination">
-              <button 
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-              >
-                Anterior
-              </button>
-              <span>
-                Página {currentPage} de {totalPages}
-              </span>
-              <button 
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
-              >
-                Próxima
-              </button>
-            </div>
-          )}
-        </div>
-      )}
+      <MarketData
+        data={klinesData}
+        loading={loading}
+        error={error}
+        intervals={intervals}
+        currentInterval={klinesInterval}
+        onIntervalChange={setKlinesInterval}
+        limits={limits}
+        currentLimit={limit}
+        onLimitChange={setLimit}
+        itemsPerPage={5}
+      />
       
       <OrderBook
         bids={orderBook?.bids}
