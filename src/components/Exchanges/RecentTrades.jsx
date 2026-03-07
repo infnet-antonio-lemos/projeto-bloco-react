@@ -57,7 +57,7 @@ const RecentTrades = ({ data, loading, error }) => {
                     {parseFloat(trade.price).toFixed(8)}
                   </td>
                   <td>{parseFloat(trade.amount).toFixed(8)}</td>
-                  <td>{new Date(trade.time).toLocaleTimeString()}</td>
+                  <td className="td-nowrap">{new Date(trade.time).toLocaleTimeString()}</td>
                   <td className={trade.side === 'buy' ? 'trade-row-buy' : 'trade-row-sell'}>
                     {trade.side === 'buy' ? 'Compra' : 'Venda'}
                   </td>
