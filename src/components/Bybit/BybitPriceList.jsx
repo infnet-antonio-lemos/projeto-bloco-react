@@ -30,8 +30,9 @@ const BybitPriceList = () => {
             throw new Error(data.retMsg || 'Failed to fetch data');
         }
 
-        setPrices(data.result.list);
-        setFilteredPrices(data.result.list);
+        const sortedList = data.result.list.sort((a, b) => a.symbol.localeCompare(b.symbol));
+        setPrices(sortedList);
+        setFilteredPrices(sortedList);
       } catch (err) {
         setError(err.message);
       } finally {

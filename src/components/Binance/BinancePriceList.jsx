@@ -25,6 +25,7 @@ const BinancePriceList = () => {
         }
         
         const data = await response.json();
+        data.sort((a, b) => a.symbol.localeCompare(b.symbol));
         setPrices(data);
         setFilteredPrices(data);
       } catch (err) {
