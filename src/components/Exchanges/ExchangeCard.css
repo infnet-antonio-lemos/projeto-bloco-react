@@ -1,4 +1,10 @@
-/* Mobile First Approach */
+/* =========================================================
+   ESTILOS BASE (MOBILE-FIRST)
+   Faixa: 0px até 767px (Smartphones)
+   Mudança estrutural: O cartão utiliza um layout em coluna 
+   única com estatísticas empilhadas verticalmente para 
+   garantir a legibilidade em telas estreitas.
+   ========================================================= */
 .exchange-card {
   background: #1a1a2e;
   border-radius: 12px;
@@ -111,7 +117,12 @@
   transform: scale(1.05);
 }
 
-/* Tablet - 768px and up */
+/* =========================================================
+   BREAKPOINT: TABLET (min-width: 768px)
+   Mudança estrutural: Aumento de padding e fontes. O layout 
+   base de coluna é mantido, mas com maior respiro visual 
+   conforme a largura da tela aumenta.
+   ========================================================= */
 @media (min-width: 768px) {
   .exchange-card {
     padding: 1.5rem;
@@ -135,7 +146,12 @@
   }
 }
 
-/* Desktop - 1024px and up */
+/* =========================================================
+   BREAKPOINT: DESKTOP (min-width: 1024px)
+   Mudança estrutural: As estatísticas do cartão mudam de 
+   vertical para horizontal (`flex-direction: row`), otimizando 
+   o espaço em monitores maiores e facilitando a comparação.
+   ========================================================= */
 @media (min-width: 1024px) {
   .exchange-stats {
     flex-direction: row;

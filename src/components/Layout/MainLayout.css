@@ -1,4 +1,10 @@
-/* Mobile First Approach */
+/* =========================================================
+   ESTILOS BASE (MOBILE-FIRST)
+   Faixa: 0px até 767px (Smartphones)
+   Mudança estrutural: A área de conteúdo principal ocupa  100% 
+   da largura da tela e não possui margem à esquerda, pois a 
+   Sidebar não é fixa nesta resolução.
+   ========================================================= */
 .main-layout {
   min-height: 100vh;
   display: flex;
@@ -13,7 +19,12 @@
   transition: margin-left 0.3s ease;
 }
 
-/* Tablet - 768px and up */
+/* =========================================================
+   BREAKPOINT: TABLET (min-width: 768px)
+   Mudança estrutural: A Sidebar passa a ser fixada com 240px. 
+   Para evitar sobreposição, a área de conteúdo principal 
+   recebe uma margem à esquerda de exatos 240px.
+   ========================================================= */
 @media (min-width: 768px) {
   .main-content {
     margin-left: 240px;
@@ -21,7 +32,12 @@
   }
 }
 
-/* Desktop - 1024px and up */
+/* =========================================================
+   BREAKPOINT: DESKTOP (min-width: 1024px)
+   Mudança estrutural: A Sidebar fixa é expandida para 280px. 
+   A margem esquerda da área de conteúdo principal é reajustada 
+   proporcionalmente para acompanhar esse novo tamanho.
+   ========================================================= */
 @media (min-width: 1024px) {
   .main-content {
     margin-left: 280px;

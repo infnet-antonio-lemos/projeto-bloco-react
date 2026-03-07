@@ -1,4 +1,10 @@
-/* Mobile First Approach */
+/* =========================================================
+   ESTILOS BASE (MOBILE-FIRST)
+   Faixa: 0px até 767px (Smartphones)
+   Mudança estrutural: O Header exibe o botão de menu 
+   "hambúrguer" (.menu-toggle) para permitir o acesso à 
+   navegação lateral que se encontra oculta nesta resolução.
+   ========================================================= */
 .header {
   background-color: #1a1a2e;
   color: #ffffff;
@@ -51,7 +57,12 @@
   display: none;
 }
 
-/* Tablet - 768px and up */
+/* =========================================================
+   BREAKPOINT: TABLET (min-width: 768px)
+   Mudança estrutural: O botão de menu é removido (`display: none`), 
+   pois a Sidebar torna-se fixa. Os links de navegação (.header-nav) 
+   passam a ser exibidos horizontalmente.
+   ========================================================= */
 @media (min-width: 768px) {
   .header-logo h1 {
     font-size: 1.75rem;
@@ -87,7 +98,12 @@
   }
 }
 
-/* Desktop - 1024px and up */
+/* =========================================================
+   BREAKPOINT: DESKTOP (min-width: 1024px)
+   Mudança estrutural: Ampliação de paddings e fontes para 
+   melhor harmonia visual em telas largas, acompanhando o 
+   alargamento da Sidebar para 280px.
+   ========================================================= */
 @media (min-width: 1024px) {
   .header {
     padding: 1.25rem 2rem;

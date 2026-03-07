@@ -1,4 +1,10 @@
-/* Mobile First Approach */
+/* =========================================================
+   ESTILOS BASE (MOBILE-FIRST)
+   Faixa: 0px até 767px (Smartphones)
+   Mudança estrutural: Os cartões nascem em 1 única coluna 
+   (grid-template-columns: 1fr) para evitar que a interface 
+   fique espremida na tela estreita do celular.
+   ========================================================= */
 .exchange-list-container {
   width: 100%;
 }
@@ -123,7 +129,11 @@
   margin: 0;
 }
 
-/* Tablet - 768px and up */
+/* =========================================================
+   BREAKPOINT: TABLET (min-width: 768px)
+   Mudança estrutural: Para evitar que os cartões fiquem muito
+   largos e desconfortáveis, o grid passa a exibir 2 colunas.
+   ========================================================= */
 @media (min-width: 768px) {
   .page-title {
     font-size: 2.25rem;
@@ -153,7 +163,12 @@
   }
 }
 
-/* Desktop - 1024px and up */
+/* =========================================================
+   BREAKPOINT: DESKTOP (min-width: 1024px)
+   Mudança estrutural: Otimiza o espaço extra de monitores 
+   largos expandindo o grid para 3 colunas, reduzindo 
+   espaços em branco desnecessários.
+   ========================================================= */
 @media (min-width: 1024px) {
   .page-title {
     font-size: 2.5rem;
@@ -166,12 +181,5 @@
   .exchange-grid {
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
-  }
-}
-
-/* Large Desktop - 1440px and up */
-@media (min-width: 1440px) {
-  .exchange-grid {
-    grid-template-columns: repeat(3, 1fr);
   }
 }
