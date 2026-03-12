@@ -12,10 +12,15 @@
 
 .search-container {
   margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .search-input {
-  width: 100%;
+  flex: 1;
+  min-width: 250px;
   max-width: 400px;
   padding: 0.875rem 1rem;
   border-radius: 8px;
