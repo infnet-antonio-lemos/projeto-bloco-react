@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import RecentTrades from '../Exchanges/RecentTrades';
 import OrderBook from '../Exchanges/OrderBook';
 import MarketData from '../Exchanges/MarketData';
+import LastPriceCard from '../Exchanges/LastPriceCard';
 import './BinanceMarketData.css';
 
 const BinanceMarketData = () => {
@@ -69,7 +70,14 @@ const BinanceMarketData = () => {
       <Link to="/binance" className="back-button">← Voltar para Lista de Preços</Link>
       
       <h2>Dados de Mercado {symbol}</h2>
-      
+
+      <LastPriceCard
+        symbol={symbol}
+        price={trades[trades.length - 1]?.price}
+        loading={loading}
+        error={error}
+      />
+
       <MarketData
         data={klinesData}
         loading={loading}
