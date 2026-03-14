@@ -68,6 +68,7 @@ const BinancePriceList = () => {
       <div className="search-container">
         <input
           type="text"
+          aria-label="Filtrar por símbolo"
           placeholder="Filtrar por símbolo (ex: BTCUSDT)..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
