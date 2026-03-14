@@ -1,3 +1,4 @@
+import logo from '../../assets/logo.svg';
 import './Header.css';
 
 const Header = ({ onMenuToggle }) => {
@@ -15,6 +16,7 @@ const Header = ({ onMenuToggle }) => {
         </button>
         
         <div className="header-logo">
+          <img src={logo} alt="CryptoView logo" className="header-logo-img" />
           <h1>CryptoView</h1>
         </div>
       </div>
