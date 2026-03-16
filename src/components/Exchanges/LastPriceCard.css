@@ -1,0 +1,55 @@
+.last-price-card {
+  padding: 20px 24px;
+  background-color: var(--background-card);
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.last-price-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.last-price-label {
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.last-price-symbol {
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.last-price-value {
+  color: var(--primary-color);
+  font-size: 2.2rem;
+  font-weight: 700;
+  font-family: 'Courier New', Courier, monospace;
+  letter-spacing: -0.02em;
+}
+
+.last-price-card.error {
+  border-color: rgba(255, 77, 77, 0.3);
+}
+
+.last-price-value.loading-text,
+.last-price-value.error-text {
+  font-size: 1rem;
+  font-family: inherit;
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+.last-price-value.error-text {
+  color: #ff4d4d;
+}

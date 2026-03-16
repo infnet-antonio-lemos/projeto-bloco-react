@@ -1,12 +1,26 @@
 import { NavLink } from 'react-router-dom';
+import { exchanges } from '../../data/exchanges';
 import './Sidebar.css';
 
 const Sidebar = ({ isOpen, onClose }) => {
   const menuItems = [
-    { id: 'exchanges', label: 'Exchanges', icon: '🏦', path: '/exchanges' },
-    { id: 'binance', label: 'Binance', icon: '📈', path: '/binance' },
-    { id: 'bybit', label: 'Bybit', icon: '📊', path: '/bybit' },
+    { id: 'main-exchanges', label: 'Exchanges', icon: '🏦', path: '/exchanges', mock: false },
+    ...exchanges.map(exchange => ({
+      id: exchange.id,
+      label: exchange.name,
+      icon: exchange.icon,
+      path: exchange.path,
+      mock: exchange.mock
+    }))
   ];
+
+  const handleLinkClick = (e, item) => {
+    if (item.mock) {
+      e.preventDefault();
+      alert(`A integração com a ${item.label} ainda não está disponível.`);
+    }
+    onClose();
+  };
 
   return (
     <>
@@ -28,9 +42,9 @@ const Sidebar = ({ isOpen, onClose }) => {
             {menuItems.map((item) => (
               <li key={item.id} className="sidebar-menu-item">
                 <NavLink 
-                  to={item.path} 
-                  className={({ isActive }) => `sidebar-link ${isActive ? 'active' : ''}`}
-                  onClick={onClose}
+                  to={item.mock ? '#' : item.path} 
+                  className={({ isActive }) => `sidebar-link ${isActive && !item.mock ? 'active' : ''}`}
+                  onClick={(e) => handleLinkClick(e, item)}
                   end={item.path === '/'} // Avoid active state on root for all paths if path was /
                 >
                   <span className="sidebar-icon">{item.icon}</span>

@@ -61,6 +61,10 @@
    Usually price is first. Let's keep existing alignment or make standard.
 */
 
+.td-nowrap {
+  text-wrap: nowrap;
+}
+
 .trade-row-buy {
   color: #00ff88;
 }

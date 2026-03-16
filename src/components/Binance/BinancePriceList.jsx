@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import RefreshButton from '../Common/RefreshButton';
 import './BinancePriceList.css';
 
 const BinancePriceList = () => {
@@ -14,26 +15,27 @@ const BinancePriceList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
 
-  useEffect(() => {
-    const fetchPrices = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch('https://api.binance.com/api/v3/ticker/price');
-        
-        if (!response.ok) {
-          throw new Error('Failed to fetch data');
-        }
-        
-        const data = await response.json();
-        setPrices(data);
-        setFilteredPrices(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
+  const fetchPrices = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await fetch('https://api.binance.com/api/v3/ticker/price');
+      
+      if (!response.ok) {
+        throw new Error('Failed to fetch data');
       }
-    };
+      
+      const data = await response.json();
+      data.sort((a, b) => a.symbol.localeCompare(b.symbol));
+      setPrices(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchPrices();
   }, []);
 
@@ -66,11 +68,13 @@ const BinancePriceList = () => {
       <div className="search-container">
         <input
           type="text"
+          aria-label="Filtrar por símbolo"
           placeholder="Filtrar por símbolo (ex: BTCUSDT)..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="search-input"
         />
+        <RefreshButton onClick={fetchPrices} loading={loading} />
       </div>
 
       <div className="table-responsive">

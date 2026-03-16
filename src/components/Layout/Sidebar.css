@@ -1,4 +1,10 @@
-/* Mobile First Approach */
+/* =========================================================
+   ESTILOS BASE (MOBILE-FIRST)
+   Faixa: 0px até 767px (Smartphones)
+   Critério: Reduzir dependência de navegação lateral fixa 
+   para não ocupar a viewport reduzida. A Sidebar fica 
+   oculta (-280px) e funciona como um menu de sobreposição (Drawer).
+   ========================================================= */
 .sidebar {
   position: fixed;
   top: 0;
@@ -115,7 +121,13 @@
   font-size: 0.875rem;
 }
 
-/* Tablet - 768px and up */
+/* =========================================================
+   BREAKPOINT: TABLET (min-width: 768px)
+   Mudança estrutural: A viewport agora tem espaço horizontal 
+   suficiente. A Sidebar deixa de ser um menu de sobreposição 
+   e passa a ser fixada à esquerda, ocupando 240px. 
+   O overlay e o botão de fechar são removidos.
+   ========================================================= */
 @media (min-width: 768px) {
   .sidebar {
     left: 0;
@@ -135,7 +147,12 @@
   }
 }
 
-/* Desktop - 1024px and up */
+/* Desktop - 1024px and up *//* =========================================================
+   BREAKPOINT: DESKTOP (min-width: 1024px)
+   Mudança estrutural: Em monitores maiores, a largura da 
+   Sidebar é expandida de 240px para 280px para melhor 
+   conforto visual e espaçamento dos links.
+   ========================================================= */
 @media (min-width: 1024px) {
   .sidebar {
     width: 280px;

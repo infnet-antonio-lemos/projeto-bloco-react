@@ -1,0 +1,31 @@
+.refresh-button {
+  padding: 0.875rem 1.5rem;
+  background-color: var(--primary-color, #00d4ff);
+  color: var(--secondary-color, #1a1a2e);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  font-size: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.refresh-button:hover:not(:disabled) {
+  background-color: #00a8cc;
+  transform: translateY(-1px);
+}
+
+.refresh-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.refresh-button:disabled {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary, rgba(255, 255, 255, 0.5));
+  cursor: not-allowed;
+  border: 1px solid var(--border-color);
+}

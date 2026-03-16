@@ -11,12 +11,15 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 .controls-group {
   display: flex;
   align-items: center;
   gap: 20px;
+  flex-wrap: wrap;
 }
 
 .limit-control {
@@ -46,6 +49,10 @@
 .data-table {
   width: 100%;
   border-collapse: collapse;
+}
+
+.td-nowrap {
+  text-wrap: nowrap;
 }
 
 .data-table th,

@@ -116,7 +116,7 @@ const MarketData = ({
               currentItems.map((kline, index) => (
                 <tr key={index}>
                   {/* Handle both timestamp formats (number vs string) */}
-                  <td>{new Date(Number(kline[0])).toLocaleString()}</td>
+                  <td className="td-nowrap">{new Date(Number(kline[0])).toLocaleString()}</td>
                   <td>{parseFloat(kline[1]).toFixed(8)}</td>
                   <td className="price-up">{parseFloat(kline[2]).toFixed(8)}</td>
                   <td className="price-down">{parseFloat(kline[3]).toFixed(8)}</td>

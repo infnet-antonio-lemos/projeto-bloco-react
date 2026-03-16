@@ -24,11 +24,11 @@
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
+  overflow: auto;
 }
 
 .order-book-column {
   flex: 1;
-  min-width: 300px;
 }
 
 .order-book-column h4 {
