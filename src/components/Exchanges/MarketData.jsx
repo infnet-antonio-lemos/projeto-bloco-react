@@ -117,7 +117,8 @@ const MarketData = ({
 
         <PriceChart 
                       symbol={symbol}
-                      interval={currentInterval}
+                      currentInterval={currentInterval}
+                      intervals={intervals}
                       data={data}/>
                   
         )}    
