@@ -68,7 +68,7 @@ const BybitMarketData = () => {
     }
   }, [symbol, limit, klineInterval]);
 
-  if (loading) return <div className="loading">Carregando dados de mercado...</div>;
+  if (loading && !klines.length) return <div className="loading">Carregando dados de mercado...</div>;
   if (error) return <div className="error">Erro: {error}</div>;
 
   return (
