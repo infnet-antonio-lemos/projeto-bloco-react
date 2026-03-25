@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './MarketData.css';
+import PriceChart from './PriceChart';
 
 /**
  * Reusable MarketData component (Klines Table)
@@ -26,6 +27,7 @@ const MarketData = ({
   currentLimit,
   onLimitChange,
   itemsPerPage = 10,
+  symbol
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -61,12 +63,25 @@ const MarketData = ({
     return val;
   };
 
+  
   const currentIntervalLabel = intervals.find(i => getIntervalValue(i) === currentInterval)?.label || currentInterval;
+
+  // Toggles the visibility state of the interative price chart
+  const [showChart, setShowChart] = useState(false);
+
+  const toggleChartVisibility = () => {
+    setShowChart(!showChart);
+  }
 
   return (
     <div className="market-data-container">
       <div className="filters-header">
         <h3>Dados Históricos ({currentIntervalLabel})</h3>
+        <div className="chart-toggle-container"><span className="chart-toggle-label">Gráfico: </span>
+        <button 
+          className="chart-toggle-button"
+          onClick={toggleChartVisibility}>📊</button></div>
+        
         <div className="controls-group">
           <div className="limit-control">
             <label>Intervalo:</label>
@@ -97,7 +112,17 @@ const MarketData = ({
           </div>
         </div>
       </div>
+      
+      {showChart && (        
 
+        <PriceChart 
+                      symbol={symbol}
+                      currentInterval={currentInterval}
+                      intervals={intervals}
+                      data={data}/>
+                  
+        )}    
+        
       <div className="table-responsive">
         <table className="data-table">
           <thead>

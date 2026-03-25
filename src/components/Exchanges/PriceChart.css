@@ -1,0 +1,89 @@
+/* ========================================
+   ESTILOS BASE (MOBILE-FIRST)
+   Faixa: 0px até 767px (Smartphones)
+   ======================================== */
+.price-chart-container {
+  background-color: #161624;
+  border: 1px solid #2a2a3f;
+  border-radius: 8px;     /* Bordas menores no mobile */
+  padding: 12px;          /* Espaçamento reduzido para caber na tela */
+  margin-bottom: 20px;
+}
+
+.price-chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #2a2a3f;
+  flex-wrap: wrap;        /* Permite quebra de linha se o título for longo no celular */
+  gap: 10px;
+}
+
+.price-chart-header h4 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 1rem;        /* Fonte um pouco menor no mobile */
+}
+
+.price-chart-badge {
+  background-color: rgba(0, 212, 255, 0.1);
+  color: #00d4ff;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.price-chart-canvas-placeholder {
+  height: 250px;          /* Altura compacta para não empurrar muito a tela no celular */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.02);
+  border: 1px dashed #444;
+  border-radius: 8px;
+  color: #a0a0b0;
+  text-align: center;
+  padding: 15px;
+}
+
+.no-data-text {
+  text-align: center;
+  color: #a0a0b0;
+  padding: 20px;
+}
+
+/* ========================================
+   BREAKPOINT: TABLET (min-width: 768px)
+   ======================================== */
+@media (min-width: 768px) {
+  .price-chart-container {
+    padding: 16px;
+    border-radius: 12px;
+  }
+  
+  .price-chart-header h4 {
+    font-size: 1.1rem;
+  }
+  
+  .price-chart-canvas-placeholder {
+    height: 350px;        /* Gráfico ganha mais respiro vertical em tablets */
+  }
+}
+
+/* ========================================
+   BREAKPOINT: DESKTOP (min-width: 1024px)
+   ======================================== */
+@media (min-width: 1024px) {
+  .price-chart-container {
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+  
+  .price-chart-canvas-placeholder {
+    height: 450px;        /* Altura ideal para análise técnica em monitores */
+  }
+}
