@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import RecentTrades from '../Exchanges/RecentTrades';
 import OrderBook from '../Exchanges/OrderBook';
 import MarketData from '../Exchanges/MarketData';
 import LastPriceCard from '../Exchanges/LastPriceCard';
+import RefreshButton from '../Common/RefreshButton';
 import './BinanceMarketData.css';
 
 const BinanceMarketData = () => {
@@ -22,44 +23,39 @@ const BinanceMarketData = () => {
   const intervals = ['1m', '3m', '5m', '15m', '30m', '1h', '2h', '4h', '6h', '8h', '12h', '1d', '3d', '1w', '1M'];
   const limits = [1, 5, 10, 20, 50, 100];
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (!symbol) return;
+  const fetchData = useCallback(async () => {
+    if (!symbol) return;
+    
+    try {
+      setLoading(true);
       
-      try {
-        setLoading(true);
-        
-        const [orderBookRes, tradesRes, klinesRes] = await Promise.all([
-          fetch(`https://api.binance.com/api/v3/depth?symbol=${symbol}&limit=10`),
-          fetch(`https://api.binance.com/api/v3/trades?symbol=${symbol}&limit=10`),
-          fetch(`https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=${klinesInterval}&limit=${limit}`)
-        ]);
-        
-        if (!orderBookRes.ok || !tradesRes.ok || !klinesRes.ok) {
-          throw new Error('Failed to fetch data');
-        }
-        
-        const orderBookData = await orderBookRes.json();
-        const tradesData = await tradesRes.json();
-        const klinesResData = await klinesRes.json();
-        
-        setOrderBook(orderBookData);
-        setTrades(tradesData);
-        setKlinesData(klinesResData);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
+      const [orderBookRes, tradesRes, klinesRes] = await Promise.all([
+        fetch(`https://api.binance.com/api/v3/depth?symbol=${symbol}&limit=10`),
+        fetch(`https://api.binance.com/api/v3/trades?symbol=${symbol}&limit=10`),
+        fetch(`https://api.binance.com/api/v3/klines?symbol=${symbol}&interval=${klinesInterval}&limit=${limit}`)
+      ]);
+      
+      if (!orderBookRes.ok || !tradesRes.ok || !klinesRes.ok) {
+        throw new Error('Failed to fetch data');
       }
-    };
-
-    fetchData();
-    
-    // Refresh data every 5 seconds
-    const intervalId = setInterval(fetchData, 5000);
-    
-    return () => clearInterval(intervalId);
+      
+      const orderBookData = await orderBookRes.json();
+      const tradesData = await tradesRes.json();
+      const klinesResData = await klinesRes.json();
+      
+      setOrderBook(orderBookData);
+      setTrades(tradesData);
+      setKlinesData(klinesResData);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   }, [symbol, klinesInterval, limit]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   if (loading && !orderBook) return <div className="loading">Carregando livro de ordens para {symbol}...</div>;
   if (error) return <div className="error">Erro: {error}</div>;
@@ -69,7 +65,10 @@ const BinanceMarketData = () => {
     <div className="binance-container">
       <Link to="/binance" className="back-button">← Voltar para Lista de Preços</Link>
       
-      <h2>Dados de Mercado {symbol}</h2>
+      <div className="page-header">
+        <h2>Dados de Mercado {symbol}</h2>
+        <RefreshButton onClick={fetchData} loading={loading} />
+      </div>
 
       <LastPriceCard
         symbol={symbol}

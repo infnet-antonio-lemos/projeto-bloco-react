@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import RecentTrades from '../Exchanges/RecentTrades';
 import OrderBook from '../Exchanges/OrderBook';
 import MarketData from '../Exchanges/MarketData';
 import LastPriceCard from '../Exchanges/LastPriceCard';
+import RefreshButton from '../Common/RefreshButton';
 import './BybitMarketData.css';
 
 const BybitMarketData = () => {
@@ -28,45 +29,44 @@ const BybitMarketData = () => {
     { value: 'M', label: '1M' },
   ];
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        
-        const klineResponse = await fetch(
-          `https://api.bybit.com/v5/market/kline?category=spot&symbol=${symbol}&interval=${klineInterval}&limit=${limit}`
-        );
-        const klineData = await klineResponse.json();
+  const fetchData = useCallback(async () => {
+    if (!symbol) return;
+    try {
+      setLoading(true);
+      
+      const klineResponse = await fetch(
+        `https://api.bybit.com/v5/market/kline?category=spot&symbol=${symbol}&interval=${klineInterval}&limit=${limit}`
+      );
+      const klineData = await klineResponse.json();
 
-        const tradesResponse = await fetch(
-          `https://api.bybit.com/v5/market/recent-trade?category=spot&symbol=${symbol}&limit=20`
-        );
-        const tradesData = await tradesResponse.json();
+      const tradesResponse = await fetch(
+        `https://api.bybit.com/v5/market/recent-trade?category=spot&symbol=${symbol}&limit=20`
+      );
+      const tradesData = await tradesResponse.json();
 
-        const orderBookResponse = await fetch(
-          `https://api.bybit.com/v5/market/orderbook?category=spot&symbol=${symbol}&limit=10`
-        );
-        const orderBookData = await orderBookResponse.json();
+      const orderBookResponse = await fetch(
+        `https://api.bybit.com/v5/market/orderbook?category=spot&symbol=${symbol}&limit=10`
+      );
+      const orderBookData = await orderBookResponse.json();
 
-        if (klineData.retCode !== 0) throw new Error(klineData.retMsg);
-        if (tradesData.retCode !== 0) throw new Error(tradesData.retMsg);
-        if (orderBookData.retCode !== 0) throw new Error(orderBookData.retMsg);
+      if (klineData.retCode !== 0) throw new Error(klineData.retMsg);
+      if (tradesData.retCode !== 0) throw new Error(tradesData.retMsg);
+      if (orderBookData.retCode !== 0) throw new Error(orderBookData.retMsg);
 
-        setKlines(klineData.result.list);
-        setTrades(tradesData.result.list);
-        setOrderBook(orderBookData.result);
+      setKlines(klineData.result.list);
+      setTrades(tradesData.result.list);
+      setOrderBook(orderBookData.result);
 
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (symbol) {
-      fetchData();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
   }, [symbol, limit, klineInterval]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   if (loading && !klines.length) return <div className="loading">Carregando dados de mercado...</div>;
   if (error) return <div className="error">Erro: {error}</div>;
@@ -75,7 +75,10 @@ const BybitMarketData = () => {
     <div className="bybit-container">
       <Link to="/bybit" className="back-button">← Voltar para Lista de Preços</Link>
       
-      <h2>Dados de Mercado {symbol}</h2>
+      <div className="page-header">
+        <h2>Dados de Mercado {symbol}</h2>
+        <RefreshButton onClick={fetchData} loading={loading} />
+      </div>
 
       <LastPriceCard
         symbol={symbol}
