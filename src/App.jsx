@@ -8,6 +8,7 @@ import BinancePage from './pages/BinancePage'
 import BinanceSymbolPage from './pages/BinanceSymbolPage'
 import BybitPage from './pages/BybitPage'
 import BybitSymbolPage from './pages/BybitSymbolPage'
+import AdminPage from './pages/AdminPage'
 import './App.css'
 
 function App() {
@@ -28,6 +29,14 @@ function App() {
                     <Route path="/binance/:symbol" element={<BinanceSymbolPage />} />
                     <Route path="/bybit" element={<BybitPage />} />
                     <Route path="/bybit/:symbol" element={<BybitSymbolPage />} />
+                    <Route
+                      path="/admin"
+                      element={
+                        <ProtectedRoute requiredRole="admin">
+                          <AdminPage />
+                        </ProtectedRoute>
+                      }
+                    />
                     <Route path="*" element={<Navigate to="/" replace />} />
                   </Routes>
                 </MainLayout>

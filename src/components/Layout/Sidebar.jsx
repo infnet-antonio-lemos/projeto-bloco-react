@@ -1,8 +1,11 @@
 import { NavLink } from 'react-router-dom';
 import { exchanges } from '../../data/exchanges';
+import { useAuth } from '../../context/AuthContext';
 import './Sidebar.css';
 
 const Sidebar = ({ isOpen, onClose }) => {
+  const { hasRole } = useAuth();
+
   const menuItems = [
     { id: 'main-exchanges', label: 'Exchanges', icon: '🏦', path: '/exchanges', mock: false },
     ...exchanges.map(exchange => ({
@@ -11,7 +14,8 @@ const Sidebar = ({ isOpen, onClose }) => {
       icon: exchange.icon,
       path: exchange.path,
       mock: exchange.mock
-    }))
+    })),
+    ...(hasRole('admin') ? [{ id: 'admin', label: 'Admin', icon: '🔒', path: '/admin', mock: false }] : []),
   ];
 
   const handleLinkClick = (e, item) => {
