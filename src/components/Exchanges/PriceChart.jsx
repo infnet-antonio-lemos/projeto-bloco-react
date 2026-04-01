@@ -40,18 +40,28 @@ const PriceChart = ({ symbol, currentInterval, intervals, data }) => {
   const chartLabels = data.map(item => {
     const rawTimestamp = Array.isArray(item) ? item[0] : item.time;
     const date = new Date(Number(rawTimestamp));
-    const timeRange = String(currentInterval).toLowerCase();
-    
-    // Agora utilizamos a prop 'intervals' diretamente
-    const safeIntervals = intervals || [];
-    const intervalIndex = safeIntervals.findIndex(i => String(i).toLowerCase() === timeRange);
+    const intervalStr = String(currentInterval);
 
-    // Adapta o texto: Mostra só hora, data e hora, ou só data, dependendo do intervalo
-    if ((intervalIndex >= 0 && intervalIndex <= 5) || timeRange.endsWith('m')) {
+    // Busca o objeto/string do intervalo sem lowercase para evitar confusão entre '1m' e '1M'
+    const safeIntervals = intervals || [];
+    const intervalObj = safeIntervals.find(i =>
+      typeof i === 'object' ? String(i.value) === intervalStr : String(i) === intervalStr
+    );
+
+    // Para Bybit (objetos com .label) usa o label; para Binance usa o próprio valor
+    const label = typeof intervalObj === 'object' && intervalObj?.label
+      ? intervalObj.label
+      : intervalStr;
+
+    // Adapta o texto usando label case-sensitivo: '1m' termina em 'm', '1M' não
+    if (label.endsWith('m')) {
+      // Intervalos de minutos: mostra só hora
       return date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-    } else if ((intervalIndex > 5 && intervalIndex <= 10) || timeRange.endsWith('h')) {
+    } else if (label.endsWith('h')) {
+      // Intervalos de horas: mostra data + hora
       return `${date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' })} ${date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`;
     } else {
+      // Diário, semanal, mensal: mostra só data
       return date.toLocaleDateString('pt-BR');
     }
   });
@@ -134,7 +144,7 @@ const PriceChart = ({ symbol, currentInterval, intervals, data }) => {
       </div>
       
       <div className="price-chart-canvas-placeholder chart-active">
-        <Line data={chartData} options={chartOptions} />
+        <Line key={currentInterval} data={chartData} options={chartOptions} />
       </div>
     </div>
   );
