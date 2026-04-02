@@ -1,11 +1,14 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import Sidebar from '../components/Layout/Sidebar';
+import { AuthProvider } from '../context/AuthContext';
 
 const renderComponent = (props = {}) =>
   render(
     <MemoryRouter>
-      <Sidebar isOpen={false} onClose={() => {}} {...props} />
+      <AuthProvider>
+        <Sidebar isOpen={false} onClose={() => {}} {...props} />
+      </AuthProvider>
     </MemoryRouter>
   );
 
