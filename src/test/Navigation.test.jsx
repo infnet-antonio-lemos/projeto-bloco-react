@@ -5,6 +5,7 @@ import MainLayout from '../components/Layout/MainLayout';
 import ExchangesPage from '../pages/ExchangesPage';
 import BinancePage from '../pages/BinancePage';
 import BybitPage from '../pages/BybitPage';
+import { AuthProvider } from '../context/AuthContext';
 
 beforeEach(() => {
   vi.stubGlobal(
@@ -37,6 +38,7 @@ afterEach(() => {
 const renderApp = (initialRoute = '/') =>
   render(
     <MemoryRouter initialEntries={[initialRoute]}>
+      <AuthProvider>
       <MainLayout>
         <Routes>
           <Route path="/" element={<ExchangesPage />} />
@@ -45,6 +47,7 @@ const renderApp = (initialRoute = '/') =>
           <Route path="/bybit" element={<BybitPage />} />
         </Routes>
       </MainLayout>
+      </AuthProvider>
     </MemoryRouter>
   );
 

@@ -2,11 +2,14 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import MainLayout from '../components/Layout/MainLayout';
+import { AuthProvider } from '../context/AuthContext';
 
 const renderComponent = (children = <p>Page content</p>) =>
   render(
     <MemoryRouter>
-      <MainLayout>{children}</MainLayout>
+      <AuthProvider>
+        <MainLayout>{children}</MainLayout>
+      </AuthProvider>
     </MemoryRouter>
   );
 
